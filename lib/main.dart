@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  //await Firebase.initializeApp();記事参照
+  runApp(MyApp());
 }
 
 /*firebase_storage.FirebaseStorage storage =
     firebase_storage.FirebaseStorage.instance;*/
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  //const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

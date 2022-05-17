@@ -2,9 +2,17 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'config/config.dart';
+
+final configurations = Configurations();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();記事参照
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: configurations.apiKey,
+          messagingSenderId: configurations.messagingSenderId,
+          projectId: configurations.projectId,
+          appId: ''));
   runApp(MyApp());
 }
 

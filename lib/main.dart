@@ -2,18 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'config/config.dart';
+//import 'config/config.dart';
 
 //deploy先をgithubにしてるからapikeyを公開しないとdeployされない現象が起きる
-final configurations = Configurations();
+//final configurations = Configurations();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: FirebaseOptions(
-          apiKey: configurations.apiKey,
-          messagingSenderId: configurations.messagingSenderId,
-          projectId: configurations.projectId,
-          appId: ''));
+  //await Firebase.initializeApp();
   runApp(MyApp());
 }
 

@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'config/config.dart';
 
 class LickertPage extends StatefulWidget {
@@ -12,12 +13,16 @@ class LickertPage extends StatefulWidget {
   State<LickertPage> createState() => _LickertPageState();
 }
 
+enum SingingCharacter { lafayette, jefferson } //radioボタンの初期値class
+
 class _LickertPageState extends State<LickertPage> {
   int _counter = 0;
   AudioCache audioCache = AudioCache();
   AudioPlayer advancedPlayer = AudioPlayer();
   final _isHovering = [false, false, false, false];
-
+  SfRangeValues _initialValues = SfRangeValues(4.0, 8.0); //デフォルトのレンジ幅
+  SfRangeValues _values = SfRangeValues(4.0, 8.0); //ranges sliderのフォルト値
+  int selectedRadio = 1;
   AudioPlayer player = new AudioPlayer(mode: PlayerMode.LOW_LATENCY);
 
   void _incrementCounter() {
@@ -26,9 +31,23 @@ class _LickertPageState extends State<LickertPage> {
     });
   }
 
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    SingingCharacter? _character = SingingCharacter.jefferson; //radioデフォルト値
+    var _selectedIndex = -1;
+
+    setSelectedRadio(int val) {
+      setState(() {
+        selectedRadio = val;
+      });
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -98,17 +117,92 @@ class _LickertPageState extends State<LickertPage> {
                 ),
               ),
               Center(
-                  child: new SizedBox(
-                height: screenSize.height * 1.0,
-                child: FloatingActionButton(
-                  mini: false,
-                  onPressed: null,
-                  elevation: 0, // 通常時のエレベーション
-                  hoverElevation: 0, // マウスホバー時のエレベーション
-                  highlightElevation: 0, // ボタン押下時のエレベーション
-                  child: Icon(Icons.face),
+                  child: Column(children: [
+                SizedBox(
+                  height: screenSize.height * 1 / 4,
+                  child: FloatingActionButton(
+                    mini: false,
+                    onPressed: null,
+                    elevation: 0, // 通常時のエレベーション
+                    hoverElevation: 0, // マウスホバー時のエレベーション
+                    highlightElevation: 0, // ボタン押下時のエレベーション
+                    child: Icon(Icons.face),
+                  ),
                 ),
-              )),
+                SizedBox(
+                  child: SfRangeSelector(
+                    min: 0.0,
+                    max: 5.0,
+                    initialValues: _initialValues,
+                    interval: 1,
+                    showTicks: true,
+                    showLabels: true,
+                    child: Container(
+                      color: Colors.green[100],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  child: SfRangeSlider(
+                      min: 0.0,
+                      max: 10.0,
+                      values: _values,
+                      onChanged: (SfRangeValues newValues) {
+                        setState(() {
+                          _values = newValues;
+                        });
+                      }),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 8,
+                          child: Radio(
+                            value: i,
+                            groupValue: selectedRadio,
+                            activeColor: Colors.green,
+                            onChanged: (val) {
+                              print("Radio $val");
+                              setSelectedRadio(i);
+                            },
+                          ),
+                        ),
+                    ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    for (int i = 0; i < 5; i++)
+                      SizedBox(
+                        width: screenSize.width * 1 / 8,
+                        height: screenSize.height * 1 / 8,
+                        child: Text('当てはまる $i'),
+                      ),
+                  ],
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          child: Radio(
+                            value: i,
+                            groupValue: selectedRadio,
+                            activeColor: Colors.green,
+                            onChanged: (val) {
+                              print("Radio $val");
+                              setSelectedRadio(i);
+                            },
+                          ),
+                        ),
+                      for (int i = 0; i < 5; i++) SizedBox(),
+                    ]),
+              ])),
+
+              /*
               Center(
                   heightFactor: 1,
                   child: Padding(
@@ -144,7 +238,7 @@ class _LickertPageState extends State<LickertPage> {
                         shadowColor: Colors.black, // 影の色を設定するオプション
                       ),
                     ),
-                  )),
+                  )),*/
             ],
           )),
       body: Container(),

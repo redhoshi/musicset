@@ -2,7 +2,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:setmusic/jiji.dart';
 import 'config/config.dart';
+import 'lickert.dart';
 
 //deploy先をgithubにしてるからapikeyを公開しないとdeployされない現象が起きる
 final configurations = Configurations();
@@ -25,14 +27,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        //primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          //primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        debugShowCheckedModeBanner: false,
+        //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        //  home: const MyStatefulWidget(),
+        home: const LickertPage(
+          title: 'lickert',
+        ));
   }
 }
 

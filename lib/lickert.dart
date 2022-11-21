@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'config/config.dart';
 
 class LickertPage extends StatefulWidget {
@@ -12,13 +13,33 @@ class LickertPage extends StatefulWidget {
   State<LickertPage> createState() => _LickertPageState();
 }
 
+enum SingingCharacter { lafayette, jefferson } //radioボタンの初期値class
+
 class _LickertPageState extends State<LickertPage> {
   int _counter = 0;
   AudioCache audioCache = AudioCache();
   AudioPlayer advancedPlayer = AudioPlayer();
   final _isHovering = [false, false, false, false];
 
+  int selectedRadio = 1;
+  int selectedRadio1 = 2;
+  int selectedRadio2 = 2;
+  int selectedRadio3 = 2;
+  int selectedRadio4 = 2;
+  int selectedRadio5 = 2;
+
+//  final _selectedRadio = [1, 2, 3, 4, 5];
   AudioPlayer player = new AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+
+  Future<void> reload() async {
+    selectedRadio = 1;
+    selectedRadio1 = 2;
+    selectedRadio2 = 2;
+    selectedRadio3 = 2;
+    selectedRadio4 = 2;
+    selectedRadio5 = 2;
+    setState(() {});
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -26,9 +47,23 @@ class _LickertPageState extends State<LickertPage> {
     });
   }
 
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    SingingCharacter? _character = SingingCharacter.jefferson; //radioデフォルト値
+    var _selectedIndex = -1;
+
+    setSelectedRadio(int val) {
+      setState(() {
+        selectedRadio = val;
+      });
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -98,53 +133,195 @@ class _LickertPageState extends State<LickertPage> {
                 ),
               ),
               Center(
-                  child: new SizedBox(
-                height: screenSize.height * 1.0,
-                child: FloatingActionButton(
-                  mini: false,
-                  onPressed: null,
-                  elevation: 0, // 通常時のエレベーション
-                  hoverElevation: 0, // マウスホバー時のエレベーション
-                  highlightElevation: 0, // ボタン押下時のエレベーション
-                  child: Icon(Icons.face),
+                  child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.only(top: screenSize.height * 1 / 12),
+                  child: SizedBox(
+                    height: screenSize.height * 1 / 9,
+                    child: FloatingActionButton(
+                      //音を再生するボタンに変更する
+                      mini: false,
+                      onPressed: null,
+                      elevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      child: Icon(Icons.face),
+                    ),
+                  ),
                 ),
-              )),
-              Center(
-                  heightFactor: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: screenSize.height * 0.40,
-                      left: screenSize.width / 5,
-                      right: screenSize.width / 5,
-                    ),
-                    child: new SizedBox(
-                      height: 80,
-                      child: Card(
-                        child: Center(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: [
-                                    Text('Card04'),
-                                    new SizedBox(
-                                      width: screenSize.width * 0.15,
-                                    ),
-                                    Text('please tap'),
-                                    new SizedBox(
-                                      width: screenSize.width * 0.15,
-                                    ),
-                                    Text('Card04'),
-                                  ],
-                                ),
-                              ]),
+                //for (int j = 0; j < 5; j++)
+                Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        for (int i = 0; i < 5; i++)
+                          SizedBox(
+                            width: screenSize.width * 1 / 8,
+                            height: screenSize.height * 1 / 18,
+                            child: Radio(
+                              value: i,
+                              groupValue: selectedRadio,
+                              activeColor: Colors.green,
+                              onChanged: (val) {
+                                setSelectedRadio(i);
+                              },
+                            ),
+                          ),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 18,
+                          child: Text('当てはまる $i'),
                         ),
-                        color: Colors.white, // Cardの背景色
-                        elevation: 8, // 影の離れ具合を調整するオプション
-                        shadowColor: Colors.black, // 影の色を設定するオプション
-                      ),
-                    ),
-                  )),
+                    ],
+                  ),
+                ]),
+                Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        for (int j = 0; j < 5; j++)
+                          SizedBox(
+                            width: screenSize.width * 1 / 8,
+                            height: screenSize.height * 1 / 18,
+                            child: Radio(
+                              value: j,
+                              groupValue: selectedRadio1,
+                              activeColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadio1 = j;
+                                });
+                              },
+                            ),
+                          ),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 18,
+                          child: Text('当てはまる $i'),
+                        ),
+                    ],
+                  ),
+                ]),
+                Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        for (int j = 0; j < 5; j++)
+                          SizedBox(
+                            width: screenSize.width * 1 / 8,
+                            height: screenSize.height * 1 / 18,
+                            child: Radio(
+                              value: j,
+                              groupValue: selectedRadio2,
+                              activeColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadio2 = j;
+                                });
+                              },
+                            ),
+                          ),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 18,
+                          child: Text('当てはまる $i'),
+                        ),
+                    ],
+                  ),
+                ]),
+                Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        for (int j = 0; j < 5; j++)
+                          SizedBox(
+                            width: screenSize.width * 1 / 8,
+                            height: screenSize.height * 1 / 18,
+                            child: Radio(
+                              value: j,
+                              groupValue: selectedRadio4,
+                              activeColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadio4 = j;
+                                });
+                              },
+                            ),
+                          ),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 18,
+                          child: Text('当てはまる $i'),
+                        ),
+                    ],
+                  ),
+                ]),
+                Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        for (int j = 0; j < 5; j++)
+                          SizedBox(
+                            width: screenSize.width * 1 / 8,
+                            height: screenSize.height * 1 / 18,
+                            child: Radio(
+                              value: j,
+                              groupValue: selectedRadio5,
+                              activeColor: Colors.green,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadio5 = j;
+                                });
+                              },
+                            ),
+                          ),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < 5; i++)
+                        SizedBox(
+                          width: screenSize.width * 1 / 8,
+                          height: screenSize.height * 1 / 18,
+                          child: Text('当てはまる $i'),
+                        ),
+                    ],
+                  ),
+                ]),
+
+                SizedBox(
+                  height: screenSize.height * 1 / 14,
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      // Navigator.push(context,)最初から実行
+                      print('relo');
+                      reload();
+                    },
+                    icon: new Icon(Icons.add),
+                    label: Text("次へ"),
+                  ),
+                ),
+              ])),
             ],
           )),
       body: Container(),

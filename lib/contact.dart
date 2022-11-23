@@ -3,22 +3,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:setmusic/contact.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'art_about.dart';
 import 'config/config.dart';
 
-class ArtAboutPage extends StatefulWidget {
-  const ArtAboutPage({Key? key, required this.title}) : super(key: key);
+class ContactPage extends StatefulWidget {
+  const ContactPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<ArtAboutPage> createState() => _ArtAboutPageState();
+  State<ContactPage> createState() => _ContactPageState();
 }
 
 enum SingingCharacter { lafayette, jefferson } //radioボタンの初期値class
 
-class _ArtAboutPageState extends State<ArtAboutPage> {
+class _ContactPageState extends State<ContactPage> {
   int _counter = 0;
   AudioCache audioCache = AudioCache();
   AudioPlayer advancedPlayer = AudioPlayer();
@@ -86,6 +86,7 @@ class _ArtAboutPageState extends State<ArtAboutPage> {
                           SizedBox(
                             width: screenSize.width / 10,
                           ),
+                          //Text("Redhoshi's PhotoFolio"),
                           InkWell(
                             onTap: () {
                               Navigator.of(context)
@@ -111,7 +112,13 @@ class _ArtAboutPageState extends State<ArtAboutPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ArtAboutPage(title: '')));
+                                  },
                                   onHover: (value) {
                                     setState(() {
                                       _isHovering[0] = value;
@@ -129,13 +136,7 @@ class _ArtAboutPageState extends State<ArtAboutPage> {
                                 ),
                                 SizedBox(width: screenSize.width / 20),
                                 InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContactPage(title: '')));
-                                  },
+                                  onTap: () {},
                                   onHover: (value) {
                                     setState(() {
                                       _isHovering[2] = value;
@@ -178,7 +179,7 @@ class _ArtAboutPageState extends State<ArtAboutPage> {
                                 height: screenSize.height / 60,
                               ),
                               Text(
-                                "Redhoshi's PhotoFolioとは",
+                                "Contact",
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -190,48 +191,7 @@ class _ArtAboutPageState extends State<ArtAboutPage> {
                                   text: TextSpan(children: [
                                 const TextSpan(
                                     text:
-                                        'Redhoshiが暇つぶしで作ったwebサイトです. Redhoshiに関する情報は',
-                                    style: TextStyle(color: Colors.white)),
-                                TextSpan(
-                                    text: 'こちら',
-                                    style:
-                                        const TextStyle(color: Colors.indigo),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        // タップ時
-                                        await launch(
-                                            'https://redhoshi.github.io/');
-                                      }),
-                                const TextSpan(
-                                    text:
-                                        'から.\n暇なときに撮った写真をぽつらぽつら掲載していく予定です.\n使用しているカメラは以下の通りです.\n\n-富士フィルムFUJIFILM INS MINI EVO BLACK チェキ instax mini Evo - \n画面サイズ : 62mm × 46mm, レンズ : 60mm 1:12.7, ファインダー : 実像式ファインダー0.37倍/ターゲットマーク付き, シャッター : プログラム式電子シャッター1/2~1/250秒 低輝度スローシンクロ, 詳細は',
-                                    style: TextStyle(color: Colors.white)),
-                                TextSpan(
-                                    text: 'こちら',
-                                    style:
-                                        const TextStyle(color: Colors.indigo),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        // タップ時
-                                        await launch(
-                                            'https://instax.jp/mini40/');
-                                      }),
-                                const TextSpan(
-                                    text:
-                                        'から.\n\n- Nikon1 V2 -\n有効画素数 : 1425万画素, ISO感度 : ISO160-6400, 高速連続撮影 : AF追従, 約15コマ/秒, 動画撮影 : フルHD 1080/60i, 詳細は',
-                                    style: TextStyle(color: Colors.white)),
-                                TextSpan(
-                                    text: 'こちら',
-                                    style:
-                                        const TextStyle(color: Colors.indigo),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        // タップ時
-                                        await launch(
-                                            'https://www.nikon-image.com/products/mirrorless/lineup/v2/');
-                                      }),
-                                const TextSpan(
-                                    text: 'から.',
+                                        'akaki.shiho.ss[-at-]alumni.tsukuba.ac.jp',
                                     style: TextStyle(color: Colors.white)),
                               ])),
                             ]),

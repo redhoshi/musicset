@@ -2,7 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:setmusic/art_about.dart';
+import 'package:setmusic/contact.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'config/config.dart';
 
 class ArtPage extends StatefulWidget {
@@ -67,72 +70,85 @@ class _ArtPageState extends State<ArtPage> {
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
           preferredSize: Size(screenSize.width, 1000),
-          child: Stack(
-            children: [
-              Container(
-                color: Colors.white,
-                height: screenSize.height * 0.07,
-                width: screenSize.width,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Text("Redhoshi's PhotoFolio"),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {},
-                              onHover: (value) {
-                                setState(() {
-                                  _isHovering[0] = value;
-                                });
-                                print(_isHovering);
-                              },
-                              child: Text(
-                                '$_isHovering',
-                                style: TextStyle(
-                                  color: _isHovering[0]
-                                      ? Colors.blue.shade200
-                                      : Colors.black,
+          child: Stack(children: [
+            SingleChildScrollView(
+                child: Stack(
+              children: [
+                Container(
+                  color: Colors.white,
+                  height: screenSize.height * 0.07,
+                  width: screenSize.width,
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: screenSize.width / 10,
+                        ),
+                        Text("Redhoshi's PhotoFolio"),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ArtAboutPage(title: '')));
+                                },
+                                onHover: (value) {
+                                  setState(() {
+                                    _isHovering[0] = value;
+                                  });
+                                  print(_isHovering);
+                                },
+                                child: Text(
+                                  'About',
+                                  style: TextStyle(
+                                    color: _isHovering[0]
+                                        ? Colors.indigo
+                                        : Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: screenSize.width / 20),
-                            InkWell(
-                              onTap: () {},
-                              child: Text(
-                                'Contact Us',
-                                style: TextStyle(color: Colors.black),
+                              SizedBox(width: screenSize.width / 20),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ContactPage(title: '')));
+                                },
+                                onHover: (value) {
+                                  setState(() {
+                                    _isHovering[2] = value;
+                                  });
+                                },
+                                child: Text(
+                                  'Contact me',
+                                  style: TextStyle(
+                                      color: _isHovering[2]
+                                          ? Colors.indigo
+                                          : Colors.black),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(color: Colors.black),
+                        SizedBox(
+                          width: screenSize.width / 10,
                         ),
-                      ),
-                      SizedBox(
-                        width: screenSize.width / 50,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SingleChildScrollView(
-                child: Center(
+
+                /*SingleChildScrollView(
+                child: */
+                Center(
                     child: Column(children: [
                   Padding(
                     //padding: EdgeInsets.only(top: screenSize.height * 1 / 8),
@@ -166,8 +182,25 @@ class _ArtPageState extends State<ArtPage> {
                                                   )
                                                 ]),
                                             child: Row(children: [
-                                              Image.asset(
-                                                  "assets/images/9F2621A6-4CE6-4067-A448-6BED3FAE31F7.jpg"),
+                                              new MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: GestureDetector(
+                                                    onTap: () async {
+                                                      //dialogboxを表示
+                                                      await launch("https://");
+                                                    },
+                                                    child: Image.network(
+                                                      "assets/images/9F2621A6-4CE6-4067-A448-6BED3FAE31F7.jpg",
+                                                      // width: 500,
+                                                      fit: BoxFit.fitWidth,
+                                                    )),
+                                              ),
+                                              /*
+                                              new SizedBox(
+                                                child: Image.asset(
+                                                    "assets/images/9F2621A6-4CE6-4067-A448-6BED3FAE31F7.jpg"),
+                                              ),*/
                                             ]),
                                           )),
                                     ]),
@@ -199,9 +232,10 @@ class _ArtPageState extends State<ArtPage> {
                     ),
                   ),
                 ])),
-              ),
-            ],
-          )),
+                //),
+              ],
+            )),
+          ])),
       body: Container(),
     );
   }
